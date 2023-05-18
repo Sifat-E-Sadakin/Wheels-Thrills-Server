@@ -8,7 +8,7 @@ app.use(cors())
 app.use(express.json())
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rohhp7w.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -45,6 +45,13 @@ async function run() {
       let query = {tName : item}
       let result = await ToyDB.find(query).toArray();
       res.send(result)
+    })
+
+    app.get('/toys/:id', async (req, res)=>{
+      let id = req.params.id;
+      let query = { _id : new ObjectId(id)};
+      let result = await ToyDB.findOne(query);
+      res.send(result);
     })
 
     // Connect the client to the server	(optional starting in v4.7)
