@@ -32,8 +32,19 @@ async function run() {
     })
     
     app.get('/toys', async(req, res)=>{
-        let result = await ToyDB.find().toArray()
+        
+      let query = req.query.tName;
+      let find =  ToyDB.find({ tName : query})
+      let result = await ToyDB.find().limit(20).toArray()
+       
         res.send(result)
+    })
+
+    app.get('/toys/find', async(req, res)=>{
+      let item= req.query.tName;
+      let query = {tName : item}
+      let result = await ToyDB.find(query).toArray();
+      res.send(result)
     })
 
     // Connect the client to the server	(optional starting in v4.7)
