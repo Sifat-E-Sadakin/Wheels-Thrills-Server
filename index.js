@@ -54,6 +54,39 @@ async function run() {
       res.send(result);
     })
 
+    app.get('/email', async(req, res)=>{
+      let mail = req.query.email
+      let query = {sEmail : mail }
+      let result = await ToyDB.find(query).toArray();
+      res.send(result)
+    })
+
+    app.put('/update/:id', async (req, res)=>{
+      let id = req.params.id
+      let info = req.body;
+      let filter = { _id : new ObjectId(id)}
+      const options = { upsert: true };
+      let updateInfo = {
+        $set: {
+          price: info.price,
+          quantity: info.quantity,
+          description: info.description,
+        }
+      }
+      let result = await ToyDB.updateOne(filter,updateInfo, options);
+      res.send(result)
+     
+      
+    })
+
+    app.delete('/remove/:id', async (req, res)=>{
+      let id = req.params.id
+      let query = { _id : new ObjectId(id)}
+      let result = await ToyDB.deleteOne(query);
+      res.send(result)
+      
+    })
+
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     // Send a ping to confirm a successful connection
