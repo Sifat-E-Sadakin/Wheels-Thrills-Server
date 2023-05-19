@@ -87,6 +87,15 @@ async function run() {
       
     })
 
+    app.get('/asort', async (req, res)=>{
+      let mail = req.query.email;
+      // console.log(mail);
+      let query = {sEmail : mail};
+      let sort = {price : 1};
+      let result = await ToyDB.find(query).sort(sort).toArray();
+      res.send(result)
+    })
+
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     // Send a ping to confirm a successful connection
