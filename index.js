@@ -39,6 +39,14 @@ async function run() {
        
         res.send(result)
     })
+    app.get('/alltoys', async(req, res)=>{
+        
+      let query = req.query.tName;
+      let find =  ToyDB.find({ tName : query})
+      let result = await ToyDB.find().toArray()
+       
+        res.send(result)
+    })
 
     app.get('/toys/find', async(req, res)=>{
       let item= req.query.tName;
